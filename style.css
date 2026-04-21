@@ -1040,4 +1040,12 @@ section {
   .exp-bullets li::before {
     color: #666 !important;
   }
+  .profile-photo {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  }
 }
