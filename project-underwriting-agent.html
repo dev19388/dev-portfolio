@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Underwriting Agent — Dev Surti</title>
+  <meta name="description" content="An autonomous agent that produces standardised SME credit memos — cutting prep time from hours to minutes." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Dev <span>Surti</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="experience.html">Professional Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="icon" id="theme-icon">☽</span>
+          <span id="theme-label">Dark</span>
+        </button>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" role="navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">Work</a>
+      <a href="experience.html">Professional Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="project-page">
+    <div class="container--narrow">
+
+      <a href="index.html#work" class="back-link fade-in">← Work</a>
+
+      <!-- Hero -->
+      <div class="project-hero fade-in fade-in-delay-1">
+        <p class="project-number">Project 03</p>
+        <h1>Underwriting Agent</h1>
+        <p class="project-teaser">Credit underwriting for SME loans is slow, repetitive, and inconsistent.</p>
+        <div class="project-meta">
+          <span class="tag">AI Agent</span>
+          <span class="tag">Fintech</span>
+          <span class="tag">LLM</span>
+        </div>
+      </div>
+
+      <!-- The Problem -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">The Problem</p>
+        <h2>Every credit analyst is reinventing the same memo from scratch.</h2>
+        <p>
+          In SME lending, a credit analyst spends significant time on tasks that are fundamentally
+          repetitive and data-driven: pulling bureau reports, reading bank statements, summarising
+          financials, mapping red flags against policy rules, writing a credit memo. In many
+          mid-size NBFCs and fintechs, this process takes 2–4 hours per case.
+        </p>
+        <p>
+          The output quality depends heavily on the individual analyst. A senior analyst brings
+          pattern recognition built from hundreds of cases. A junior analyst misses nuances.
+          There is no structural way to enforce consistency — every memo reflects the individual,
+          not the institution's credit policy.
+        </p>
+        <p>
+          Inconsistency creates downstream problems: credit committee reviews take longer because
+          memos aren't structured the same way. Approvals get delayed. Borderline cases get
+          resolved by gut feel rather than structured analysis tied to the policy document.
+        </p>
+        <p>
+          The irony is that the underlying rules are usually well-defined — the credit policy
+          exists — but there is no mechanism to apply it uniformly at the memo-writing stage,
+          case after case, at scale.
+        </p>
+      </div>
+
+      <!-- The Solution -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">The Solution</p>
+        <h2>Structured analysis on every case. Automatically.</h2>
+        <p>
+          An autonomous underwriting agent that takes structured inputs — applicant financials,
+          bureau data, bank statement summary — and produces a standardised credit memo with
+          risk flags, scoring summary, and a recommendation (approve / refer / reject) with
+          rationale. The agent follows a defined credit policy ruleset and applies LLM reasoning
+          to interpret edge cases that don't fit cleanly into the rules.
+        </p>
+        <p>
+          The output is designed for the underwriter to review and override, not to replace them.
+          The goal is to cut memo prep time from hours to minutes, and to ensure every case gets
+          the same baseline of structured analysis regardless of who handles it — so the analyst's
+          judgment goes into the right place: the edge cases, not the boilerplate.
+        </p>
+        <p>
+          Key design decision: the agent surfaces its reasoning explicitly. Every risk flag is
+          tied to a specific data point. Every recommendation includes the policy clause it maps
+          to. This makes the output auditable and helps the credit committee trust the memo rather
+          than re-verifying it from scratch.
+        </p>
+      </div>
+
+      <!-- Screenshots -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Product Screenshots</p>
+        <h2>Interface</h2>
+        <div class="screenshots-grid">
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+        </div>
+      </div>
+
+      <!-- GitHub -->
+      <div class="project-section github-cta fade-in">
+        <a href="#" class="text-cta text-cta--accent">View on GitHub →</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dev Surti. All rights reserved.</p>
+      <a href="index.html#work" class="footer-copy text-cta" style="font-size:0.8rem;">← Back to Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀';
+        themeLabel.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '☽';
+        themeLabel.textContent = 'Dark';
+      }
+    }
+
+    applyTheme(localStorage.getItem('theme') || 'light');
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileNav = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

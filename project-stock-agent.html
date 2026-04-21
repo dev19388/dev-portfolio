@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Suggestion Agent — Dev Surti</title>
+  <meta name="description" content="An AI agent that translates your investment thesis into a screened, ranked shortlist of stocks — with per-stock rationale." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Dev <span>Surti</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="experience.html">Professional Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="icon" id="theme-icon">☽</span>
+          <span id="theme-label">Dark</span>
+        </button>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" role="navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">Work</a>
+      <a href="experience.html">Professional Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="project-page">
+    <div class="container--narrow">
+
+      <a href="index.html#work" class="back-link fade-in">← Work</a>
+
+      <!-- Hero -->
+      <div class="project-hero fade-in fade-in-delay-1">
+        <p class="project-number">Project 04</p>
+        <h1>Stock Suggestion Agent</h1>
+        <p class="project-teaser">Retail investors lack tools that match recommendations to their personal thesis.</p>
+        <div class="project-meta">
+          <span class="tag">AI Agent</span>
+          <span class="tag">Investing</span>
+          <span class="tag">LLM</span>
+        </div>
+      </div>
+
+      <!-- The Problem -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">The Problem</p>
+        <h2>Generic recommendations are useful to no one in particular.</h2>
+        <p>
+          Most stock screeners give generic output based on technical indicators or broad themes.
+          They don't know your investment thesis, your risk appetite, or what you already hold.
+          A value investor and a momentum trader get the same recommendations — which means the
+          output is useful to neither.
+        </p>
+        <p>
+          Retail investors who have a clear thesis — "mid-cap Indian manufacturing, low debt,
+          high promoter holding" — have no easy way to translate that into a screened shortlist
+          without knowing how to write screener formulas or navigate the filter UIs that
+          professional tools offer.
+        </p>
+        <p>
+          The gap isn't knowledge — most serious retail investors understand what they're looking
+          for. The gap is the translation layer between a natural language thesis and a set of
+          quantitative filters that actually runs against real data.
+        </p>
+        <p>
+          The result: people either fall back on stock tips from social media, or spend hours
+          manually filtering through lists that weren't built with their criteria in mind.
+        </p>
+      </div>
+
+      <!-- The Solution -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">The Solution</p>
+        <h2>Your thesis in. A ranked shortlist out.</h2>
+        <p>
+          An agent where you describe your investment thesis in plain English. The agent parses
+          your intent, maps it to quantitative filters, runs a screen against market data, and
+          returns a ranked shortlist with per-stock rationale tied back to your stated criteria.
+          If your thesis has gaps or internal contradictions, the agent surfaces them before
+          running the screen — so you refine your thinking, not just your filters.
+        </p>
+        <p>
+          The key design decision: the thesis is the input, not a set of dropdowns. This keeps
+          the tool flexible across investment styles and forces the agent to do interpretation
+          work rather than the user. A value investor, a GARP investor, and a dividend hunter
+          all use the same interface — the agent adapts to them.
+        </p>
+        <p>
+          Each result in the shortlist includes a one-paragraph rationale explaining exactly why
+          the stock matches the thesis — not a generic summary, but a response to the specific
+          language the user used. This makes the output actionable rather than another list
+          to manually validate.
+        </p>
+      </div>
+
+      <!-- Screenshots -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Product Screenshots</p>
+        <h2>Interface</h2>
+        <div class="screenshots-grid">
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+          <div class="screenshot-placeholder">Screenshot coming soon</div>
+        </div>
+      </div>
+
+      <!-- GitHub -->
+      <div class="project-section github-cta fade-in">
+        <a href="#" class="text-cta text-cta--accent">View on GitHub →</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dev Surti. All rights reserved.</p>
+      <a href="index.html#work" class="footer-copy text-cta" style="font-size:0.8rem;">← Back to Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀';
+        themeLabel.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '☽';
+        themeLabel.textContent = 'Dark';
+      }
+    }
+
+    applyTheme(localStorage.getItem('theme') || 'light');
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileNav = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
