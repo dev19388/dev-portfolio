@@ -216,6 +216,39 @@
       color: #64748b;
     }
     .arch-diagram .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    /* Metrics table */
+    .metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .metrics-table thead th {
+      text-align: left;
+      padding: 0.65rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 2px solid var(--border);
+    }
+    .metrics-table tbody td {
+      padding: 0.85rem 1rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .metrics-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 38%;
+    }
+    .metrics-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
     @media (max-width: 760px) {
       .arch-diagram .source-grid  { grid-template-columns: repeat(4, 1fr); }
       .arch-diagram .output-grid  { grid-template-columns: repeat(2, 1fr); }
@@ -289,6 +322,30 @@
           <li>Converts multi-source loan data into consistent, narrative credit summaries with strengths, weaknesses, and risks.</li>
           <li>Designed as an event-driven, embeddable agent that can plug into any LOS workflow.</li>
         </ul>
+      </div>
+
+      <!-- Metrics That Will Move -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Metrics That Will Move</p>
+        <h2>How success gets measured.</h2>
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Average Decision Time</td>
+              <td>Reduction in the turnaround time from login of a file to the underwriting team to decision.</td>
+            </tr>
+            <tr>
+              <td>No. of loans processed per week per underwriter</td>
+              <td>Underwriter consume AI generated customer &amp; loan profile, saving 2–3 hours per loan and increasing their weekly throughput.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- Detailed Solution -->
