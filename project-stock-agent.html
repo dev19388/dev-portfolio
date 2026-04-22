@@ -3,10 +3,284 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stock Suggestion Agent — Dev Surti</title>
+  <title>Portfolio Market Insights — Dev Surti</title>
   <meta name="description" content="An AI agent that translates your investment thesis into a screened, ranked shortlist of stocks — with per-stock rationale." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    /* ── Page-specific styles ── */
+    .project-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .project-bullets li {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      padding-left: 1.25rem;
+      position: relative;
+      max-width: 680px;
+    }
+    .project-bullets li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .project-bullets li strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Challenge cards */
+    .challenge-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .challenge-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      background: var(--card-bg);
+      border-left: 3px solid var(--accent);
+    }
+    .challenge-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    .challenge-row {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .challenge-row strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .challenge-learning {
+      font-size: 0.825rem;
+      color: var(--accent);
+      font-weight: 600;
+      font-style: italic;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Tech stack */
+    .tech-stack-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+    .tech-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-size: 0.875rem;
+    }
+    .tech-row-label {
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      min-width: 130px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .tech-row-value {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Architecture Diagram ── */
+    .arch-diagram {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      padding: 28px 24px;
+      border-radius: 12px;
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+    .arch-diagram .arch-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 4px;
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .arch-diagram .arch-subtitle {
+      text-align: center;
+      font-size: 10px;
+      color: #64748b;
+      margin-bottom: 28px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .arch-diagram .section-header-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto 14px;
+    }
+    .arch-diagram .section-header-line::before,
+    .arch-diagram .section-header-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #2d3748;
+    }
+    .arch-diagram .section-header-line span {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: #cbd5e1;
+      white-space: nowrap;
+      padding: 3px 12px;
+      background: #1a2030;
+      border: 1px solid #2d3748;
+      border-radius: 20px;
+    }
+    .arch-diagram .vert-connector {
+      display: flex;
+      justify-content: center;
+      padding: 6px 0;
+    }
+    .arch-diagram .vert-line {
+      width: 2px;
+      height: 28px;
+      background: linear-gradient(to bottom, #334155, #1e293b);
+      position: relative;
+    }
+    .arch-diagram .vert-line::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: -4px;
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #334155;
+    }
+    .arch-diagram .source-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 0 auto 0;
+    }
+    .arch-diagram .source-box {
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid #1e293b;
+      background: #131820;
+    }
+    .arch-diagram .source-icon { font-size: 16px; margin-bottom: 4px; }
+    .arch-diagram .source-name { font-size: 10px; font-weight: 700; color: #94a3b8; }
+    .arch-diagram .source-detail { font-size: 9px; color: #475569; margin-top: 2px; line-height: 1.4; }
+    .arch-diagram .full-row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+    }
+    .arch-diagram .full-row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+    }
+    .arch-diagram .full-row-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 0 auto;
+    }
+    .arch-diagram .output-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 0 auto;
+    }
+    .arch-diagram .box {
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .arch-diagram .box-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      opacity: 0.65;
+    }
+    .arch-diagram .box-label {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: #e2e8f0;
+    }
+    .arch-diagram .box-desc {
+      font-size: 10px;
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+    .arch-diagram .output-box {
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .arch-diagram .output-num  { font-size: 18px; font-weight: 800; opacity: 0.25; line-height: 1; }
+    .arch-diagram .output-name { font-size: 10px; font-weight: 700; margin: 3px 0 2px; }
+    .arch-diagram .output-desc { font-size: 9px; opacity: 0.55; line-height: 1.4; }
+    .arch-diagram .theme-blue   { background: #1e3a5f; border: 1px solid #2563eb; }
+    .arch-diagram .theme-teal   { background: #0f2e2e; border: 1px solid #0d9488; }
+    .arch-diagram .theme-purple { background: #2a1a4a; border: 1px solid #7c3aed; }
+    .arch-diagram .theme-amber  { background: #2d1f00; border: 1px solid #d97706; }
+    .arch-diagram .theme-rose   { background: #2d0f1a; border: 1px solid #e11d48; }
+    .arch-diagram .theme-green  { background: #0a2e1a; border: 1px solid #16a34a; }
+    .arch-diagram .theme-indigo { background: #1a1f3a; border: 1px solid #4f46e5; }
+    .arch-diagram .theme-gray   { background: #1a1f2e; border: 1px solid #334155; }
+    .arch-diagram .atag {
+      display: inline-block;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin: 2px 2px 0 0;
+      font-weight: 700;
+    }
+    .arch-diagram .atag-blue   { background: #1d4ed8; color: #bfdbfe; }
+    .arch-diagram .atag-teal   { background: #0f766e; color: #99f6e4; }
+    .arch-diagram .atag-purple { background: #6d28d9; color: #ddd6fe; }
+    .arch-diagram .atag-amber  { background: #b45309; color: #fde68a; }
+    .arch-diagram .atag-green  { background: #15803d; color: #bbf7d0; }
+    .arch-diagram .atag-gray   { background: #334155; color: #cbd5e1; }
+    @media (max-width: 640px) {
+      .arch-diagram .source-grid  { grid-template-columns: repeat(3, 1fr); }
+      .arch-diagram .full-row-3   { grid-template-columns: 1fr; }
+      .arch-diagram .full-row-4   { grid-template-columns: repeat(2, 1fr); }
+      .arch-diagram .output-grid  { grid-template-columns: repeat(2, 1fr); }
+      .arch-diagram .full-row-2   { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -47,75 +321,280 @@
       <!-- Hero -->
       <div class="project-hero fade-in fade-in-delay-1">
         <p class="project-number">Project 04</p>
-        <h1>Stock Suggestion Agent</h1>
-        <p class="project-teaser">Retail investors lack tools that match recommendations to their personal thesis.</p>
+        <h1>Portfolio Market Insights</h1>
+        <p class="project-teaser">Retail investors lack a consolidated, real-time view of portfolio risk — and a way to act on it every morning.</p>
         <div class="project-meta">
           <span class="tag">AI Agent</span>
           <span class="tag">Investing</span>
           <span class="tag">LLM</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">React</span>
+          <span class="tag">Supabase</span>
         </div>
       </div>
 
       <!-- The Problem -->
       <div class="project-section fade-in">
         <p class="project-section-label">The Problem</p>
-        <h2>Generic recommendations are useful to no one in particular.</h2>
-        <p>
-          Most stock screeners give generic output based on technical indicators or broad themes.
-          They don't know your investment thesis, your risk appetite, or what you already hold.
-          A value investor and a momentum trader get the same recommendations — which means the
-          output is useful to neither.
-        </p>
-        <p>
-          Retail investors who have a clear thesis — "mid-cap Indian manufacturing, low debt,
-          high promoter holding" — have no easy way to translate that into a screened shortlist
-          without knowing how to write screener formulas or navigate the filter UIs that
-          professional tools offer.
-        </p>
-        <p>
-          The gap isn't knowledge — most serious retail investors understand what they're looking
-          for. The gap is the translation layer between a natural language thesis and a set of
-          quantitative filters that actually runs against real data.
-        </p>
-        <p>
-          The result: people either fall back on stock tips from social media, or spend hours
-          manually filtering through lists that weren't built with their criteria in mind.
-        </p>
+        <h2>Fragmented tools, fragmented decisions.</h2>
+        <ul class="project-bullets">
+          <li>Investors lack a real-time, consolidated view of portfolio risk and market context across their holdings. The pain aggravates when portfolios are spread across multiple brokers — as of 2025, there are 13.6 crore unique investors but over 240 million total trading/Demat accounts, meaning many investors hold more than one broker.</li>
+          <li>Tracking daily movements, sector signals, and news requires switching between multiple tools, leading to fragmented insights and delayed decision-making.</li>
+          <li>There is no simple way to translate raw market data, price movements, and news into actionable, portfolio-specific intelligence every morning.</li>
+        </ul>
       </div>
 
       <!-- The Solution -->
       <div class="project-section fade-in">
         <p class="project-section-label">The Solution</p>
-        <h2>Your thesis in. A ranked shortlist out.</h2>
+        <h2>Daily portfolio intelligence. In seconds.</h2>
         <p>
-          An agent where you describe your investment thesis in plain English. The agent parses
-          your intent, maps it to quantitative filters, runs a screen against market data, and
-          returns a ranked shortlist with per-stock rationale tied back to your stated criteria.
-          If your thesis has gaps or internal contradictions, the agent surfaces them before
-          running the screen — so you refine your thinking, not just your filters.
+          Built a Portfolio &amp; Market Evaluator Assistant that generates daily, portfolio-specific
+          market intelligence in seconds. It combines live market data, news signals, and portfolio
+          exposure to identify stocks that need attention — designed as a modular AI + backend system
+          where deterministic scoring identifies stocks needing attention before the LLM even runs.
         </p>
-        <p>
-          The key design decision: the thesis is the input, not a set of dropdowns. This keeps
-          the tool flexible across investment styles and forces the agent to do interpretation
-          work rather than the user. A value investor, a GARP investor, and a dividend hunter
-          all use the same interface — the agent adapts to them.
-        </p>
-        <p>
-          Each result in the shortlist includes a one-paragraph rationale explaining exactly why
-          the stock matches the thesis — not a generic summary, but a response to the specific
-          language the user used. This makes the output actionable rather than another list
-          to manually validate.
-        </p>
+
+        <ul class="project-bullets" style="margin-top:1.25rem;">
+          <li>App's backend service consumes portfolio holdings (name, category, exposure %) and market context. Real-time price data is fetched using <strong>Upstox APIs</strong> and global signals via <strong>Yahoo Finance</strong> adapters, building a live market snapshot layer.</li>
+          <li>A <strong>deterministic scoring system</strong> ranks portfolio holdings based on: price weakness (gap down, intraday move), exposure concentration, news risk signals, and momentum continuation.</li>
+          <li>Separated synthesis into <strong>three independent LLM modules</strong> (multiple smaller calls to prevent mid-response truncation): Market Summary (India + global context), Top Movers (yesterday's gainer/loser insights), and Portfolio Takeaways (key investor-level insights).</li>
+          <li>A <strong>sector intelligence pipeline</strong> for Banking, Energy, EV, and Retail: backend fetches yesterday-only India-specific news per sector; LLM generates structured sector insights from the verified input.</li>
+          <li>Implemented <strong>Structured Outputs (JSON schema)</strong> to enforce response consistency and eliminate parsing failures.</li>
+          <li>Introduced <strong>retry + fallback logic</strong> per module — partial failures do not break the entire evaluator.</li>
+          <li>Optimised token usage by limiting inputs to top 5 holdings and top 2 articles per sector, constraining output length per field, and using multiple small LLM calls instead of one large response.</li>
+          <li>Frontend designed as a <strong>premium dashboard layer</strong>: market summary hero, ranked watchlist, sector insight cards, top mover insights, and portfolio takeaways.</li>
+        </ul>
+      </div>
+
+      <!-- Value & Takeaways -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Value &amp; Takeaways</p>
+        <h2>What this unlocks for investors.</h2>
+        <ul class="project-bullets">
+          <li>Eliminates the need to track holdings across multiple brokers, apps, and news sources — single unified view of portfolio performance and market insights.</li>
+          <li>Reduces daily portfolio analysis effort by <strong>50–70%</strong> by consolidating market data, news, and insights into one place.</li>
+          <li>Enables proactive risk monitoring by identifying high-exposure stocks that need attention at market open.</li>
+          <li>Improves decision speed and clarity by translating raw price movements and news into structured, actionable insights.</li>
+          <li>Creates a foundation for future capabilities: portfolio alerts, sector strategies, automated watchlists, and AI-driven investment recommendations.</li>
+        </ul>
+      </div>
+
+      <!-- Technical Challenges -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Technical Challenges</p>
+        <h2>What broke, and how it was fixed.</h2>
+        <div class="challenge-cards">
+
+          <div class="challenge-card">
+            <p class="challenge-title">LLM Output Truncation &amp; JSON Failures</p>
+            <p class="challenge-row"><strong>Problem:</strong> Large, structured LLM responses (market + sectors + links) were getting truncated (<code>finish_reason=length</code>), leading to invalid JSON and fallback breakdowns.</p>
+            <p class="challenge-row"><strong>Solution:</strong> Split the single LLM call into smaller, purpose-driven calls and introduced structured outputs with strict schemas.</p>
+            <p class="challenge-learning">💡 Reliability improves by decomposing LLM tasks, not by increasing token limits.</p>
+          </div>
+
+          <div class="challenge-card">
+            <p class="challenge-title">Unstable JSON Parsing from Free-Form Outputs</p>
+            <p class="challenge-row"><strong>Problem:</strong> Free-form JSON prompting led to inconsistent formatting and parsing failures.</p>
+            <p class="challenge-row"><strong>Solution:</strong> Migrated to schema-driven structured outputs, eliminating reliance on prompt-based formatting and repair logic.</p>
+            <p class="challenge-learning">💡 API-level structure enforcement is far more reliable than prompt engineering for JSON outputs.</p>
+          </div>
+
+          <div class="challenge-card">
+            <p class="challenge-title">Overloading LLM with Data + Reasoning</p>
+            <p class="challenge-row"><strong>Problem:</strong> LLM was initially responsible for data processing, scoring, and narrative generation — increasing token usage and instability.</p>
+            <p class="challenge-row"><strong>Solution:</strong> Shifted all computation and scoring to the backend; LLM used only for synthesis.</p>
+            <p class="challenge-learning">💡 LLMs should act as reasoning layers, not orchestration or computation engines.</p>
+          </div>
+
+          <div class="challenge-card">
+            <p class="challenge-title">Hallucinated or Inconsistent News Links</p>
+            <p class="challenge-row"><strong>Problem:</strong> LLM occasionally generated or altered article links, reducing trust in insights.</p>
+            <p class="challenge-row"><strong>Solution:</strong> Moved all news fetching to backend APIs and restricted LLM to summarising verified inputs only.</p>
+            <p class="challenge-learning">💡 Grounding LLM outputs with external data is critical for production reliability.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Tech Stack</p>
+        <h2>What it's built with.</h2>
+        <div class="tech-stack-grid">
+          <div class="tech-row">
+            <span class="tech-row-label">Backend</span>
+            <span class="tech-row-value">FastAPI, Python, Pydantic</span>
+          </div>
+          <div class="tech-row">
+            <span class="tech-row-label">Frontend</span>
+            <span class="tech-row-value">React (Vite), TailwindCSS, Recharts</span>
+          </div>
+          <div class="tech-row">
+            <span class="tech-row-label">Database &amp; Auth</span>
+            <span class="tech-row-value">Supabase (Postgres + Auth)</span>
+          </div>
+          <div class="tech-row">
+            <span class="tech-row-label">Market Data</span>
+            <span class="tech-row-value">Upstox APIs (India), Yahoo Finance adapters (global signals)</span>
+          </div>
+          <div class="tech-row">
+            <span class="tech-row-label">AI Layer</span>
+            <span class="tech-row-value">OpenAI GPT-4o-mini — Structured Outputs, multi-call orchestration</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Architecture</p>
+        <h2>System Design &amp; Data Flow</h2>
+
+        <div class="arch-diagram">
+          <p class="arch-title">Portfolio &amp; Market Evaluator — System Architecture</p>
+          <p class="arch-subtitle">Data ingestion → deterministic scoring → LLM synthesis → dashboard</p>
+
+          <!-- Data Sources -->
+          <div class="section-header-line"><span>Data Sources</span></div>
+          <div class="source-grid">
+            <div class="source-box">
+              <div class="source-icon">📈</div>
+              <div class="source-name">Upstox API</div>
+              <div class="source-detail">Real-time India price data</div>
+            </div>
+            <div class="source-box">
+              <div class="source-icon">🌐</div>
+              <div class="source-name">Yahoo Finance</div>
+              <div class="source-detail">Global signals &amp; indices</div>
+            </div>
+            <div class="source-box">
+              <div class="source-icon">📰</div>
+              <div class="source-name">News APIs</div>
+              <div class="source-detail">India sector news (T-1)</div>
+            </div>
+            <div class="source-box">
+              <div class="source-icon">🗄️</div>
+              <div class="source-name">Supabase</div>
+              <div class="source-detail">Portfolio holdings &amp; user auth</div>
+            </div>
+            <div class="source-box">
+              <div class="source-icon">👤</div>
+              <div class="source-name">User Input</div>
+              <div class="source-detail">Holdings, exposure %, category</div>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line"></div></div>
+
+          <!-- Backend -->
+          <div class="section-header-line"><span>Backend Processing — FastAPI + Python</span></div>
+          <div class="full-row-2">
+            <div class="box theme-blue">
+              <p class="box-title">Market Snapshot Layer</p>
+              <p class="box-label">Live Context Builder</p>
+              <p class="box-desc">Merges Upstox price feeds + Yahoo global signals into a unified market state object per evaluation run.</p>
+              <span class="atag atag-blue">FastAPI</span>
+              <span class="atag atag-blue">Pydantic</span>
+            </div>
+            <div class="box theme-teal">
+              <p class="box-title">Deterministic Scoring Engine</p>
+              <p class="box-label">Attention Ranker</p>
+              <p class="box-desc">Scores each holding on: price weakness · exposure concentration · news risk signals · momentum continuation. Outputs a ranked watchlist before LLM runs.</p>
+              <span class="atag atag-teal">Python</span>
+              <span class="atag atag-teal">Rule-based</span>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line"></div></div>
+
+          <!-- LLM Layer -->
+          <div class="section-header-line"><span>AI Synthesis Layer — OpenAI GPT-4o-mini</span></div>
+          <div class="full-row-3">
+            <div class="box theme-purple">
+              <p class="box-title">Module 1</p>
+              <p class="box-label">Market Summary</p>
+              <p class="box-desc">India + global macro context. Structured JSON output. Independent call — failure doesn't block other modules.</p>
+              <span class="atag atag-purple">Structured Output</span>
+            </div>
+            <div class="box theme-purple">
+              <p class="box-title">Module 2</p>
+              <p class="box-label">Top Movers</p>
+              <p class="box-desc">Yesterday's gainer/loser insights with rationale. Constrained to top 5 holdings to control token usage.</p>
+              <span class="atag atag-purple">Structured Output</span>
+            </div>
+            <div class="box theme-purple">
+              <p class="box-title">Module 3</p>
+              <p class="box-label">Portfolio Takeaways</p>
+              <p class="box-desc">Investor-level insights mapped to personal holdings. Grounded on verified backend data — no hallucinated links.</p>
+              <span class="atag atag-purple">Structured Output</span>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line"></div></div>
+
+          <!-- Sector Intelligence -->
+          <div class="section-header-line"><span>Sector Intelligence Pipeline</span></div>
+          <div class="full-row-4">
+            <div class="box theme-amber">
+              <p class="box-label">🏦 Banking</p>
+              <p class="box-desc">T-1 India news fetch → LLM sector summary</p>
+            </div>
+            <div class="box theme-amber">
+              <p class="box-label">⚡ Energy</p>
+              <p class="box-desc">T-1 India news fetch → LLM sector summary</p>
+            </div>
+            <div class="box theme-amber">
+              <p class="box-label">🚗 EV</p>
+              <p class="box-desc">T-1 India news fetch → LLM sector summary</p>
+            </div>
+            <div class="box theme-amber">
+              <p class="box-label">🛒 Retail</p>
+              <p class="box-desc">T-1 India news fetch → LLM sector summary</p>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line"></div></div>
+
+          <!-- Frontend Output -->
+          <div class="section-header-line"><span>Frontend Dashboard — React + TailwindCSS + Recharts</span></div>
+          <div class="output-grid">
+            <div class="output-box theme-green">
+              <div class="output-num">01</div>
+              <div class="output-name">Market Summary Hero</div>
+              <div class="output-desc">India + global macro at a glance</div>
+            </div>
+            <div class="output-box theme-green">
+              <div class="output-num">02</div>
+              <div class="output-name">Ranked Watchlist</div>
+              <div class="output-desc">Holdings scored by attention priority</div>
+            </div>
+            <div class="output-box theme-green">
+              <div class="output-num">03</div>
+              <div class="output-name">Sector Cards</div>
+              <div class="output-desc">Banking · Energy · EV · Retail</div>
+            </div>
+            <div class="output-box theme-green">
+              <div class="output-num">04</div>
+              <div class="output-name">Top Movers</div>
+              <div class="output-desc">Gainer / loser insight cards</div>
+            </div>
+            <div class="output-box theme-green">
+              <div class="output-num">05</div>
+              <div class="output-name">Portfolio Takeaways</div>
+              <div class="output-desc">Personalised investor-level actions</div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <!-- Screenshots -->
       <div class="project-section fade-in">
         <p class="project-section-label">Product Screenshots</p>
         <h2>Interface</h2>
-        <div class="screenshots-grid">
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem;">
+          <img src="images/Portfolio_Market_evaluater_1.png" alt="Portfolio Market Insights — dashboard view" style="width:100%;border-radius:6px;display:block;" />
+          <img src="images/Portfolio_Market_evaluater_2.png" alt="Portfolio Market Insights — insights view" style="width:100%;border-radius:6px;display:block;" />
         </div>
       </div>
 

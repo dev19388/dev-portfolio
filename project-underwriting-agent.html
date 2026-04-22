@@ -7,6 +7,222 @@
   <meta name="description" content="An autonomous agent that produces standardised SME credit memos — cutting prep time from hours to minutes." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    /* ── Architecture Diagram — scoped to .arch-diagram ── */
+    .arch-diagram {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      padding: 32px;
+      border-radius: 16px;
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+    .arch-diagram .arch-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 4px;
+    }
+    .arch-diagram .arch-subtitle {
+      text-align: center;
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .arch-diagram .box {
+      border-radius: 10px;
+      padding: 14px 16px;
+      position: relative;
+    }
+    .arch-diagram .box-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+    .arch-diagram .box-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #e2e8f0;
+    }
+    .arch-diagram .box-desc {
+      font-size: 11px;
+      opacity: 0.65;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+    .arch-diagram .atag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin: 3px 2px 0 0;
+      font-weight: 600;
+    }
+    .arch-diagram .theme-blue   { background: #1e3a5f; border: 1px solid #2563eb; }
+    .arch-diagram .theme-teal   { background: #0f2e2e; border: 1px solid #0d9488; }
+    .arch-diagram .theme-purple { background: #2a1a4a; border: 1px solid #7c3aed; }
+    .arch-diagram .theme-amber  { background: #2d1f00; border: 1px solid #d97706; }
+    .arch-diagram .theme-rose   { background: #2d0f1a; border: 1px solid #e11d48; }
+    .arch-diagram .theme-gray   { background: #1a1f2e; border: 1px solid #334155; }
+    .arch-diagram .theme-green  { background: #0a2e1a; border: 1px solid #16a34a; }
+    .arch-diagram .theme-indigo { background: #1a1f3a; border: 1px solid #4f46e5; }
+    .arch-diagram .atag-blue   { background: #1d4ed8; color: #bfdbfe; }
+    .arch-diagram .atag-teal   { background: #0f766e; color: #99f6e4; }
+    .arch-diagram .atag-purple { background: #6d28d9; color: #ddd6fe; }
+    .arch-diagram .atag-amber  { background: #b45309; color: #fde68a; }
+    .arch-diagram .atag-rose   { background: #be123c; color: #fecdd3; }
+    .arch-diagram .atag-gray   { background: #334155; color: #cbd5e1; }
+    .arch-diagram .atag-green  { background: #15803d; color: #bbf7d0; }
+    .arch-diagram .section-header-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 1100px;
+      margin: 0 auto 20px;
+    }
+    .arch-diagram .section-header-line::before,
+    .arch-diagram .section-header-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #2d3748;
+    }
+    .arch-diagram .section-header-line span {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: #cbd5e1;
+      white-space: nowrap;
+      padding: 4px 14px;
+      background: #1a2030;
+      border: 1px solid #2d3748;
+      border-radius: 20px;
+    }
+    .arch-diagram .badge {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .arch-diagram .full-row-3 {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .arch-diagram .source-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .arch-diagram .source-box {
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid #1e293b;
+      background: #131820;
+    }
+    .arch-diagram .source-icon { font-size: 18px; margin-bottom: 4px; }
+    .arch-diagram .source-name { font-size: 10px; font-weight: 700; color: #94a3b8; }
+    .arch-diagram .source-detail { font-size: 9px; color: #475569; margin-top: 2px; line-height: 1.4; }
+    .arch-diagram .output-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    .arch-diagram .output-box {
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .arch-diagram .output-num  { font-size: 20px; font-weight: 800; opacity: 0.3; line-height: 1; }
+    .arch-diagram .output-name { font-size: 11px; font-weight: 700; margin: 4px 0 3px; }
+    .arch-diagram .output-desc { font-size: 10px; opacity: 0.6; line-height: 1.4; }
+    .arch-diagram .token-row {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    .arch-diagram .token-box {
+      background: #131820;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px 20px;
+      text-align: center;
+      min-width: 130px;
+    }
+    .arch-diagram .token-val   { font-size: 20px; font-weight: 800; color: #7c3aed; }
+    .arch-diagram .token-label { font-size: 10px; color: #475569; margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .arch-diagram .vert-connector {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 8px 0;
+    }
+    .arch-diagram .vert-line {
+      width: 2px;
+      height: 32px;
+      background: linear-gradient(to bottom, #334155, #1e293b);
+      position: relative;
+    }
+    .arch-diagram .vert-line::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: -4px;
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid #334155;
+    }
+    .arch-diagram .legend {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .arch-diagram .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .arch-diagram .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    @media (max-width: 760px) {
+      .arch-diagram .source-grid  { grid-template-columns: repeat(4, 1fr); }
+      .arch-diagram .output-grid  { grid-template-columns: repeat(2, 1fr); }
+      .arch-diagram .full-row-3   { grid-template-columns: 1fr; }
+      .arch-diagram .section-header-line span { font-size: 10px; letter-spacing: 1px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -56,68 +272,293 @@
         </div>
       </div>
 
-      <!-- The Problem -->
+      <!-- Problem Statement -->
       <div class="project-section fade-in">
-        <p class="project-section-label">The Problem</p>
-        <h2>Every credit analyst is reinventing the same memo from scratch.</h2>
-        <p>
-          In SME lending, a credit analyst spends significant time on tasks that are fundamentally
-          repetitive and data-driven: pulling bureau reports, reading bank statements, summarising
-          financials, mapping red flags against policy rules, writing a credit memo. In many
-          mid-size NBFCs and fintechs, this process takes 2–4 hours per case.
-        </p>
-        <p>
-          The output quality depends heavily on the individual analyst. A senior analyst brings
-          pattern recognition built from hundreds of cases. A junior analyst misses nuances.
-          There is no structural way to enforce consistency — every memo reflects the individual,
-          not the institution's credit policy.
-        </p>
-        <p>
-          Inconsistency creates downstream problems: credit committee reviews take longer because
-          memos aren't structured the same way. Approvals get delayed. Borderline cases get
-          resolved by gut feel rather than structured analysis tied to the policy document.
-        </p>
-        <p>
-          The irony is that the underlying rules are usually well-defined — the credit policy
-          exists — but there is no mechanism to apply it uniformly at the memo-writing stage,
-          case after case, at scale.
-        </p>
+        <p class="project-section-label">Problem Statement</p>
+        <ul class="project-list">
+          <li>Underwriters spend significant time manually analyzing fragmented data across bureau, banking, property, and verification reports.</li>
+          <li>Insights are dependent on individual experience, leading to inconsistency in credit assessment and documentation.</li>
+          <li>There is no standardized, real-time way to convert raw loan data into structured, decision-ready narratives.</li>
+        </ul>
       </div>
 
-      <!-- The Solution -->
+      <!-- Solution Highlights -->
       <div class="project-section fade-in">
-        <p class="project-section-label">The Solution</p>
-        <h2>Structured analysis on every case. Automatically.</h2>
-        <p>
-          An autonomous underwriting agent that takes structured inputs — applicant financials,
-          bureau data, bank statement summary — and produces a standardised credit memo with
-          risk flags, scoring summary, and a recommendation (approve / refer / reject) with
-          rationale. The agent follows a defined credit policy ruleset and applies LLM reasoning
-          to interpret edge cases that don't fit cleanly into the rules.
-        </p>
-        <p>
-          The output is designed for the underwriter to review and override, not to replace them.
-          The goal is to cut memo prep time from hours to minutes, and to ensure every case gets
-          the same baseline of structured analysis regardless of who handles it — so the analyst's
-          judgment goes into the right place: the edge cases, not the boilerplate.
-        </p>
-        <p>
-          Key design decision: the agent surfaces its reasoning explicitly. Every risk flag is
-          tied to a specific data point. Every recommendation includes the policy clause it maps
-          to. This makes the output auditable and helps the credit committee trust the memo rather
-          than re-verifying it from scratch.
-        </p>
+        <p class="project-section-label">Solution Highlights</p>
+        <ul class="project-list">
+          <li>Built an AI-powered underwriting co-pilot that generates structured customer &amp; loan profiles in seconds.</li>
+          <li>Converts multi-source loan data into consistent, narrative credit summaries with strengths, weaknesses, and risks.</li>
+          <li>Designed as an event-driven, embeddable agent that can plug into any LOS workflow.</li>
+        </ul>
       </div>
 
-      <!-- Screenshots -->
+      <!-- Detailed Solution -->
       <div class="project-section fade-in">
-        <p class="project-section-label">Product Screenshots</p>
-        <h2>Interface</h2>
-        <div class="screenshots-grid">
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
-          <div class="screenshot-placeholder">Screenshot coming soon</div>
-        </div>
+        <p class="project-section-label">Detailed Solution</p>
+        <ul class="project-list">
+          <li>Built a FastAPI-based microservice exposing an endpoint (<code>/generate-profile</code>) that accepts structured loan application data (customer, bureau, banking, property, FI, fraud, PD).</li>
+          <li>Designed a Pydantic-based schema layer to validate and normalize incoming LOS data before passing it to the AI model.</li>
+          <li>Implemented an AI agent service layer that constructs a contextual prompt and interacts with the LLM to generate structured underwriting summaries.</li>
+          <li>Engineered a system prompt tailored to underwriting workflows, ensuring outputs are factual, structured, and aligned with credit memo standards (400 characters per section).</li>
+          <li>Enforced structured outputs via schema-based parsing, eliminating JSON parsing failures and ensuring deterministic response format.</li>
+          <li>Constrained the model using a strict system prompt + structured output schema + pre-validated input data, ensuring reliability; the model is used for interpretation, not computation (all financial metrics are pre-computed).</li>
+          <li>Integrated token usage tracking (input_tokens, output_tokens, total_tokens) to monitor cost and optimize prompt efficiency (~1300–1800 tokens per request).</li>
+          <li>Designed output into 5 standardized sections: Customer Profile, Property Profile, Case Strengths, Case Weaknesses, Potential Risks — mirroring real underwriting decision formats.</li>
+          <li>Built extensibility for external data ingestion via APIs and services: bureau providers, banking analyzers, property tech/legal vendors, fraud detection systems.</li>
+          <li>Architected as an independent, event-driven agent that can be triggered by LOS events (case creation, stage movement, manual trigger, or webhook), enabling seamless embedding across workflows.</li>
+        </ul>
+      </div>
+
+      <!-- Architecture Diagram -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Architecture</p>
+        <h2>System Design &amp; Data Flow</h2>
+
+        <div class="arch-diagram">
+
+          <!-- LAYER 1 — TRIGGERS -->
+          <div class="section-header-line">
+            <span>Trigger Layer (LOS / Clients)</span>
+          </div>
+          <div class="full-row-3" style="max-width:780px;margin:0 auto;">
+            <div class="box theme-gray" style="text-align:center;">
+              <div class="box-title">Event</div>
+              <div style="font-size:20px;margin:4px 0;">⚡</div>
+              <div class="box-label" style="font-size:12px;">Case Creation</div>
+              <div class="box-desc">LOS creates new loan case → webhook fires</div>
+            </div>
+            <div class="box theme-gray" style="text-align:center;">
+              <div class="box-title">Event</div>
+              <div style="font-size:20px;margin:4px 0;">🔄</div>
+              <div class="box-label" style="font-size:12px;">Stage Movement</div>
+              <div class="box-desc">Case moves to underwriting stage in LOS</div>
+            </div>
+            <div class="box theme-gray" style="text-align:center;">
+              <div class="box-title">Manual / API</div>
+              <div style="font-size:20px;margin:4px 0;">🖱️</div>
+              <div class="box-label" style="font-size:12px;">Direct HTTP Call</div>
+              <div class="box-desc">Underwriter or integration hits POST /api/generate-profile</div>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line" style="height:28px;"></div></div>
+
+          <!-- LAYER 2 — API GATEWAY + INPUT SCHEMA -->
+          <div class="section-header-line">
+            <span>API Gateway &amp; Input Schema — FastAPI + Pydantic</span>
+          </div>
+          <div class="source-grid">
+            <div class="source-box" style="border-color:#1d4ed8;">
+              <div class="source-icon">🏦</div>
+              <div class="source-name" style="color:#93c5fd;">Loan</div>
+              <div class="source-detail">amount · tenure<br/>LTV · purpose<br/>program · income</div>
+            </div>
+            <div class="source-box" style="border-color:#0d9488;">
+              <div class="source-icon">👤</div>
+              <div class="source-name" style="color:#5eead4;">Demographics</div>
+              <div class="source-detail">name · age · gender<br/>occupation<br/>vintage · income</div>
+            </div>
+            <div class="source-box" style="border-color:#7c3aed;">
+              <div class="source-icon">📊</div>
+              <div class="source-name" style="color:#c4b5fd;">Bureau</div>
+              <div class="source-detail">score · tradelines<br/>DPD · vintage<br/>enquiry ratios</div>
+            </div>
+            <div class="source-box" style="border-color:#d97706;">
+              <div class="source-icon">🏧</div>
+              <div class="source-name" style="color:#fcd34d;">Banking</div>
+              <div class="source-detail">ABB · BTO<br/>cash deposits<br/>EMI bounces</div>
+            </div>
+            <div class="source-box" style="border-color:#16a34a;">
+              <div class="source-icon">🏘️</div>
+              <div class="source-name" style="color:#86efac;">Property</div>
+              <div class="source-detail">Technical report<br/>Legal report<br/>Valuation · area</div>
+            </div>
+            <div class="source-box" style="border-color:#e11d48;">
+              <div class="source-icon">🕵️</div>
+              <div class="source-name" style="color:#fca5a5;">Fraud / FI</div>
+              <div class="source-detail">negative list<br/>address check<br/>field investigation</div>
+            </div>
+            <div class="source-box" style="border-color:#4f46e5;">
+              <div class="source-icon">📝</div>
+              <div class="source-name" style="color:#a5b4fc;">PD / Ratios</div>
+              <div class="source-detail">FOIR<br/>PD comment<br/>co-applicants</div>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line" style="height:28px;"></div></div>
+
+          <!-- LAYER 3 — SERVICE LAYER -->
+          <div class="section-header-line">
+            <span>Service Layer — ProfileAgentService</span>
+          </div>
+          <div style="max-width:1100px;margin:0 auto;width:100%;">
+            <div class="box theme-purple" style="padding:20px 24px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+                <div style="background:#1e1040;border-radius:8px;padding:12px;border:1px solid #4c1d95;">
+                  <div class="box-title" style="color:#a78bfa;">Step 1</div>
+                  <div class="box-label" style="font-size:12px;">Prompt Builder</div>
+                  <div class="box-desc">Serialises <strong>ProfileRequest</strong> to JSON, injects into user prompt template</div>
+                </div>
+                <div style="background:#1e1040;border-radius:8px;padding:12px;border:1px solid #4c1d95;">
+                  <div class="box-title" style="color:#a78bfa;">Step 2</div>
+                  <div class="box-label" style="font-size:12px;">System Prompt</div>
+                  <div class="box-desc">Underwriter persona · 9 rules · Strict JSON schema requirement · ≤400 chars/section</div>
+                </div>
+                <div style="background:#1e1040;border-radius:8px;padding:12px;border:1px solid #4c1d95;">
+                  <div class="box-title" style="color:#a78bfa;">Step 3</div>
+                  <div class="box-label" style="font-size:12px;">LLM Call</div>
+                  <div class="box-desc"><code style="font-size:10px;">client.responses.create()</code><br/>model · instructions · input</div>
+                </div>
+                <div style="background:#1e1040;border-radius:8px;padding:12px;border:1px solid #4c1d95;">
+                  <div class="box-title" style="color:#a78bfa;">Step 4</div>
+                  <div class="box-label" style="font-size:12px;">Response Parser</div>
+                  <div class="box-desc">JSON parse · <code style="font-size:10px;">trim_to_char_limit(400)</code> · token extraction · error handling</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bidirectional arrow -->
+          <div style="max-width:1100px;margin:12px auto;width:100%;display:flex;align-items:center;">
+            <div style="flex:1;height:1px;background:#1e293b;"></div>
+            <div style="padding:0 16px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="font-size:10px;color:#4f46e5;font-weight:600;">→ HTTPS API Request (system prompt + user prompt)</div>
+              <div style="height:2px;width:100%;background:linear-gradient(to right,#4f46e5,#7c3aed);border-radius:1px;"></div>
+              <div style="height:2px;width:100%;background:linear-gradient(to left,#0d9488,#14b8a6);border-radius:1px;"></div>
+              <div style="font-size:10px;color:#0d9488;font-weight:600;">← JSON Response + Token Usage</div>
+            </div>
+            <div style="flex:1;height:1px;background:#1e293b;"></div>
+          </div>
+
+          <!-- LAYER 4 — OPENAI -->
+          <div class="section-header-line">
+            <span>External AI Provider — OpenAI API</span>
+          </div>
+          <div class="full-row-3" style="max-width:780px;margin:0 auto;">
+            <div class="box theme-indigo" style="text-align:center;">
+              <div style="font-size:28px;margin-bottom:6px;">🤖</div>
+              <div class="box-label">Model: gpt-5.4</div>
+              <div class="box-desc">Language model for structured underwriting narrative generation</div>
+              <div style="margin-top:8px;"><span class="atag atag-purple">responses.create()</span></div>
+            </div>
+            <div class="box theme-indigo" style="text-align:center;">
+              <div style="font-size:28px;margin-bottom:6px;">📐</div>
+              <div class="box-label">Structured Output</div>
+              <div class="box-desc">Constrained by system prompt to return strict 5-key JSON — no hallucination of missing fields</div>
+              <div style="margin-top:8px;"><span class="atag atag-blue">~1300–1800 tokens/req</span></div>
+            </div>
+            <div class="box theme-indigo" style="text-align:center;">
+              <div style="font-size:28px;margin-bottom:6px;">📈</div>
+              <div class="box-label">Token Tracking</div>
+              <div class="box-desc">Returns <code style="font-size:10px;">usage</code> object with input · output · total token counts</div>
+              <div style="margin-top:8px;"><span class="atag atag-purple">Cost monitoring</span></div>
+            </div>
+          </div>
+
+          <div class="vert-connector"><div class="vert-line" style="height:28px;"></div></div>
+
+          <!-- LAYER 5 — OUTPUT -->
+          <div class="section-header-line">
+            <span>Structured Output — ProfileResponseWithUsage</span>
+          </div>
+          <div class="output-grid">
+            <div class="output-box theme-teal">
+              <div class="output-num">01</div>
+              <div class="output-name" style="color:#5eead4;">Customer Profile</div>
+              <div class="output-desc">Demographics, income, credit history, repayment capacity</div>
+              <div style="margin-top:6px;"><span class="atag atag-teal">≤400 chars</span></div>
+            </div>
+            <div class="output-box theme-blue">
+              <div class="output-num">02</div>
+              <div class="output-name" style="color:#93c5fd;">Property Profile</div>
+              <div class="output-desc">Collateral details, valuation, legal &amp; technical status</div>
+              <div style="margin-top:6px;"><span class="atag atag-blue">≤400 chars</span></div>
+            </div>
+            <div class="output-box theme-green">
+              <div class="output-num">03</div>
+              <div class="output-name" style="color:#86efac;">Case Strengths</div>
+              <div class="output-desc">Positive credit signals, strong bureau, low FOIR, clean FI</div>
+              <div style="margin-top:6px;"><span class="atag atag-green">≤400 chars</span></div>
+            </div>
+            <div class="output-box theme-amber">
+              <div class="output-num">04</div>
+              <div class="output-name" style="color:#fcd34d;">Case Weaknesses</div>
+              <div class="output-desc">Adverse indicators, DPD, bounces, cash transactions</div>
+              <div style="margin-top:6px;"><span class="atag atag-amber">≤400 chars</span></div>
+            </div>
+            <div class="output-box theme-rose">
+              <div class="output-num">05</div>
+              <div class="output-name" style="color:#fca5a5;">Potential Risks</div>
+              <div class="output-desc">Forward-looking credit risks, fraud flags, concentration risk</div>
+              <div style="margin-top:6px;"><span class="atag atag-rose">≤400 chars</span></div>
+            </div>
+          </div>
+
+          <!-- Token stats -->
+          <div class="token-row" style="margin-top:16px;">
+            <div class="token-box">
+              <div class="token-val">~900</div>
+              <div class="token-label">Input Tokens</div>
+            </div>
+            <div class="token-box">
+              <div class="token-val">~500</div>
+              <div class="token-label">Output Tokens</div>
+            </div>
+            <div class="token-box">
+              <div class="token-val">~1300–1800</div>
+              <div class="token-label">Total / Request</div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>API / Route Layer</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div>Service / Business Logic</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#0d9488;"></div>Structured Output Sections</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4f46e5;"></div>External AI Provider</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#334155;"></div>LOS Triggers</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div>Input Data Sources</div>
+          </div>
+
+        </div><!-- /.arch-diagram -->
+      </div>
+
+      <!-- Value & Takeaways -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Value &amp; Takeaways</p>
+        <ul class="project-list">
+          <li>Reduces underwriting analysis time by 30–40%.</li>
+          <li>Improves consistency and standardization across cases.</li>
+          <li>Acts as a foundation for future capabilities like risk scoring, decision recommendations, and cohort comparison.</li>
+        </ul>
+      </div>
+
+      <!-- Prompt Used -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Prompt Used</p>
+        <pre class="code-block">You are an experienced retail credit underwriter responsible for evaluating loan applications and preparing structured case summaries.
+
+Your task is to analyze structured loan application data and generate a concise, professional underwriting summary.
+
+Rules:
+1. Use only the data provided in the input. Do not assume or invent any information.
+2. Maintain a formal, factual, and credit-oriented tone similar to internal underwriting notes.
+3. Avoid generic statements; ensure each point is grounded in the data.
+4. Each section must be descriptive, human-readable, and within 400 characters.
+5. Do not repeat the same information across multiple sections.
+6. Mention key financial metrics where relevant (e.g., bureau score, FOIR, LTV, income, DPD).
+7. Highlight repayment capacity, credit behavior, and collateral quality clearly.
+8. If any data is missing, do not infer or fill gaps — simply omit it.
+9. Ensure the output is structured and suitable for direct use in a credit memo.
+
+Output Format (strict JSON):
+{
+  "customer_profile": "",
+  "property_profile": "",
+  "case_strengths": "",
+  "case_weaknesses": "",
+  "potential_risks": ""
+}</pre>
       </div>
 
       <!-- GitHub -->

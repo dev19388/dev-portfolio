@@ -850,6 +850,55 @@ section {
   margin-bottom: 0;
 }
 
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 680px;
+}
+
+.project-list li {
+  font-size: 0.975rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.project-list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.project-list code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.85em;
+  background: var(--border);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--accent);
+}
+
+.code-block {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 /* Screenshot placeholders */
 .screenshots-grid {
   display: grid;
