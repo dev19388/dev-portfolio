@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Engagement — Dev Surti</title>
+  <meta name="description" content="EngageIQ — a manager-first engagement intelligence layer that converts employee feedback into specific, actionable, measurable interventions." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    .project-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .project-bullets li {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      padding-left: 1.25rem;
+      position: relative;
+      max-width: 680px;
+    }
+    .project-bullets li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .project-bullets li strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Numbered gaps */
+    .gap-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+    .gap-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .gap-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      opacity: 0.4;
+      line-height: 1.2;
+      flex-shrink: 0;
+      width: 1.75rem;
+      text-align: right;
+    }
+    .gap-body {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+    .gap-body strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Metrics table */
+    .metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .metrics-table thead th {
+      text-align: left;
+      padding: 0.65rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 2px solid var(--border);
+    }
+    .metrics-table tbody td {
+      padding: 0.85rem 1rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .metrics-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 38%;
+    }
+    .metrics-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Video */
+    .prototype-video {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      margin-top: 1rem;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Dev <span>Surti</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="experience.html">Professional Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="icon" id="theme-icon">☽</span>
+          <span id="theme-label">Dark</span>
+        </button>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" role="navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">Work</a>
+      <a href="experience.html">Professional Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="project-page">
+    <div class="container--narrow">
+
+      <a href="index.html#prototypes" class="back-link fade-in">← Work</a>
+
+      <!-- Hero -->
+      <div class="project-hero fade-in fade-in-delay-1">
+        <h1>Employee Engagement</h1>
+        <p class="project-teaser">Team Trust &amp; Engagement Intelligence for People Managers.</p>
+        <div class="project-meta">
+          <span class="tag">People Analytics</span>
+          <span class="tag">AI Agent</span>
+          <span class="tag">LLM</span>
+          <span class="tag">HR Tech</span>
+        </div>
+      </div>
+
+      <!-- The Problem -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">The Problem</p>
+        <h2>Managers see scores. They don't know what to do.</h2>
+        <p>
+          Organisations invest heavily in engagement surveys — annual or pulse — but the output
+          typically stops at reports and dashboards. Managers, who are the real owners of team culture,
+          are left without clear guidance on what actions to take. This is mainly because many of them
+          are first-time managers and need guidance.
+        </p>
+        <p>This creates three key gaps:</p>
+        <div class="gap-list">
+          <div class="gap-item">
+            <span class="gap-num">1</span>
+            <p class="gap-body"><strong>Insight → Action Gap:</strong> Managers see engagement scores but don't know how to translate them into day-to-day leadership actions.</p>
+          </div>
+          <div class="gap-item">
+            <span class="gap-num">2</span>
+            <p class="gap-body"><strong>Generic Interventions:</strong> Existing tools provide broad recommendations (e.g., "improve recognition") that lack context from actual employee feedback.</p>
+          </div>
+          <div class="gap-item">
+            <span class="gap-num">3</span>
+            <p class="gap-body"><strong>No Measurement of Impact:</strong> There is no clear way to track whether interventions actually improve engagement or reduce attrition risk.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Overview -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Solution Overview</p>
+        <h2>EngageIQ — a weekly operating system for managers.</h2>
+        <p>
+          EngageIQ is a manager-first engagement intelligence layer that converts employee feedback
+          into specific, actionable, and measurable interventions. Instead of being a reporting tool
+          for HR, it acts as a weekly operating system for managers — helping them:
+        </p>
+        <ul class="project-bullets" style="margin-top:1rem;">
+          <li>Understand what's happening in their team</li>
+          <li>Know exactly what actions to take</li>
+          <li>Improve trust and engagement through continuous feedback loops</li>
+        </ul>
+      </div>
+
+      <!-- Prototype Delivers -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Prototype Delivers</p>
+        <h2>What the prototype does today.</h2>
+        <ul class="project-bullets">
+          <li>Tracks weekly team trust &amp; engagement trends across key drivers, highlighting the most critical areas of decline.</li>
+          <li>Generates <strong>AI-powered insights</strong> that explain what's driving engagement changes within the team.</li>
+          <li>Surfaces employee-level pulse signals, including lowest driver and specific feedback for context.</li>
+          <li>Provides <strong>AI-powered targeted coaching guidance</strong> for each employee — from quick suggestions to detailed conversation playbooks.</li>
+          <li>Drives execution through a <strong>weekly manager action tracker</strong> with clear interventions and ready-to-use communication prompts.</li>
+        </ul>
+      </div>
+
+      <!-- Metrics -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Metrics That Will Move</p>
+        <h2>How success gets measured.</h2>
+        <table class="metrics-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Attrition Risk Score</td>
+              <td>Reduction in Attrition Risk Score by moving employees from high-risk to lower-risk categories over time.</td>
+            </tr>
+            <tr>
+              <td>Weekly Pulse Participation Rate</td>
+              <td>Improved guidance from manager leads to increased engagement from team on trust factors.</td>
+            </tr>
+            <tr>
+              <td>Manager Intervention Completion Rate</td>
+              <td>Increase manager intervention completion rate, tracking how consistently managers act on insights.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Prototype Demo -->
+      <div class="project-section fade-in">
+        <p class="project-section-label">Prototype</p>
+        <h2>See it in action.</h2>
+        <video class="prototype-video" controls playsinline>
+          <source src="Prototype_vids/engage_iq.mov" type="video/mp4">
+          <source src="Prototype_vids/engage_iq.mov" type="video/quicktime">
+          Your browser does not support video playback.
+        </video>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 Dev Surti. All rights reserved.</p>
+      <a href="index.html#prototypes" class="footer-copy text-cta" style="font-size:0.8rem;">← Back to Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀';
+        themeLabel.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '☽';
+        themeLabel.textContent = 'Dark';
+      }
+    }
+
+    applyTheme(localStorage.getItem('theme') || 'light');
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileNav = document.getElementById('nav-mobile');
+    hamburger.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
